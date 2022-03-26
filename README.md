@@ -1,37 +1,53 @@
-service(): doPost doGet
+### Important Notes:
 
-doPost(): for POST only
-doGet(): for GET only
+#### Listener Method:
+`service(HttpServletRequest req, HttpServletResponse res)`
+ - It is generic and accepts all http methods
 
-// see service method in HttpServlet.class
+`doPost(HttpServletRequest req, HttpServletResponse res)`
+ - for *POST* only
+`doGet(HttpServletRequest req, HttpServletResponse res)`
+ - for *GET* only
 
-Request Dispatcher:
- - Servlet1 calls Servlet2 passing req and res
+ - Refer `service(HttpServletRequest req, HttpServletResponse resp)` method in `HttpServlet.class`
 
+#### Calling Servlet from Servlet
+1. Request Dispatcher [__for same domain__]
+2. URL Redirect [__for different domain__]
+
+##### Request Dispatcher:
+ - Servlet_1 calls Servlet_2 passing req and res
 `
-        RequestDispatcher rd = req.getRequestDispatcher("sq");
+        RequestDispatcher rd = req.getRequestDispatcher("servlet_2");
         rd.forward(req, res);
 `
-- Browser URL remain same of S1
+ - Browser URL remain same of Servlet_1
 
-If the domain is different [ex. domain1.com and domain2.com] - we do url redirect
+ - Data forwarding:
+  > - Request/Response Object is forwarded from Servlet_1 
 
-Browser send rquest to S1 [Request1]
-S1 informs browser to call s2
-Browser calss S2 [Request2]
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections
-data can be forwarded using session management
+##### URL Redirect:
+ - Browser send request to Servlet_1 [__Request_1___]
+ - Servlet_1 informs the browser to call Servlet_2
+ `
+ res.sendRedirect("new-domain");
+ `
+ - Browser calls Servlet_2 [__Request_2__]
+ > - It is a complete new request.
 
-dt:
-queryparam
-session
-cookies
+ - [More at Mozilla Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections)
+ - Data forwarding:
+ > - query-params
+ > - session
+ > - cookies
 
-servlet contxt is shared by all servlet
+#### Servlet Context:
+Servlet Context is shared by all Servlets
 
-specific servler 
+#### Servlet Config;:
+Servlet Config is specific to particular Servlet where it's defined
 
+### URLS:
+ - index: http://localhost:8080/servlet_concept_war_exploded/
 
-http://localhost:8080/servlet_concept_war_exploded/
-
-http://localhost:8080/servlet_concept_war_exploded/config-context
+ - config-context: http://localhost:8080/servlet_concept_war_exploded/config-context
